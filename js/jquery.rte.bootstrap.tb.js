@@ -128,10 +128,8 @@ function lwrte_style(args) {
 
 function lwrte_color(){
 	var self = this;
-	var panel = self.create_panel('Set color for text', 385);
-	var mouse_down = false;
-	var mouse_over = false;
-	panel.append('\
+
+	var body = '\
 <div class="colorpicker1"><div class="rgb" id="rgb"></div></div>\
 <div class="colorpicker1"><div class="gray" id="gray"></div></div>\
 <div class="colorpicker2">\
@@ -139,9 +137,30 @@ function lwrte_color(){
 	<div class="preview" id="preview"></div>\
 	<div class="color" id="color"></div>\
 </div>\
-<div class="clear"></div>\
-<p class="submit"><button id="ok">Ok</button><button id="cancel">Cancel</button></p>'
-).show();
+<div class="clear"></div>';
+
+	var onOkClicked = function() {
+		var value = color.html();
+
+		if(value.length > 0 && value.charAt(0) =='#') {
+			if(self.iframe_doc.selection) //IE fix for lost focus
+				self.range.select();
+
+			self.editor_cmd('foreColor', value);
+		}
+	};
+
+	var panel = self.create_panel({
+		title: "Set color for text"
+		,body: body
+		,btnCancelText: "Cancel"
+		,btnOkText: "Ok"
+		,onOkClicked: onOkClicked
+		,animationEnabled: true
+	});
+
+	var mouse_down = false;
+	var mouse_over = false;
 
 	var preview = $('#preview', panel);
 	var color = $("#color", panel);
@@ -166,29 +185,36 @@ function lwrte_color(){
 		.mouseout( function(e) {mouse_over = false; return false; } )
 		.mouseover( function(e) {mouse_over = true; return false; } );
 
-	$('#rgb').mousemove( function(e) { if(mouse_down && mouse_over) compute_color(this, true, false, false, e); return false;} );
-	$('#gray').mousemove( function(e) { if(mouse_down && mouse_over) compute_color(this, false, true, false, e); return false;} );
-	$('#palette').mousemove( function(e) { if(mouse_down && mouse_over) compute_color(this, false, false, true, e); return false;} );
-	$('#rgb').click( function(e) { compute_color(this, true, false, false, e); return false;} );
-	$('#gray').click( function(e) { compute_color(this, false, true, false, e); return false;} );
-	$('#palette').click( function(e) { compute_color(this, false, false, true, e); return false;} );
-
-	$('#cancel', panel).click( function() { panel.remove(); return false; } );
-	$('#ok', panel).click( 
-		function() {
-			var value = color.html();
-
-			if(value.length > 0 && value.charAt(0) =='#') {
-				if(self.iframe_doc.selection) //IE fix for lost focus
-					self.range.select();
-
-				self.editor_cmd('foreColor', value);
-			}
-					
-			panel.remove(); 
-			return false;
+	$('#rgb').mousemove(function(e) {
+		if(mouse_down && mouse_over) {
+			compute_color(this, true, false, false, e);
 		}
-	);
+		return false;
+	});
+	$('#gray').mousemove(function(e) {
+		if(mouse_down && mouse_over) {
+			compute_color(this, false, true, false, e);
+		}
+		return false;
+	});
+	$('#palette').mousemove(function(e) {
+		if(mouse_down && mouse_over) {
+			compute_color(this, false, false, true, e);
+		}
+		return false;
+	});
+	$('#rgb').click(function(e) {
+		compute_color(this, true, false, false, e);
+		return false;
+	});
+	$('#gray').click(function(e) {
+		compute_color(this, false, true, false, e);
+		return false;
+	});
+	$('#palette').click(function(e) {
+		compute_color(this, false, false, true, e);
+		return false;
+	});
 
 	function to_hex(n) {
 		var s = "0123456789abcdef";
@@ -257,12 +283,24 @@ function lwrte_color(){
 
 function lwrte_image() {
 	var self = this;
-	var panel = self.create_panel('Insert image', 385);
-	panel.append('\
-<p><label>URL</label><input type="text" id="url" size="30" value=""><button id="file">Upload</button><button id="view">View</button></p>\
-<div class="clear"></div>\
-<p class="submit"><button id="ok">Ok</button><button id="cancel">Cancel</button></p>'
-).show();
+
+	var body = '\
+<label for="url">URL</label><input type="text" id="url" size="30" value=""><button id="file" class="btn">Upload</button><button id="view" class="btn">View</button>\
+<div class="clear"></div>';
+
+	var onOkClicked = function() {
+		var file = url.val();
+		self.editor_cmd('insertImage', file);
+	};
+
+	var panel = self.create_panel({
+		title: "Insert image"
+		,body: body
+		,btnCancelText: "Cancel"
+		,btnOkText: "Ok"
+		,onOkClicked: onOkClicked
+		,animationEnabled: true
+	});
 
 	var url = $('#url', panel);
 	var upload = $('#file', panel).upload( {
@@ -296,15 +334,6 @@ function lwrte_image() {
 		}
 	);
 			
-	$('#cancel', panel).click( function() { panel.remove(); return false;} );
-	$('#ok', panel).click( 
-		function() {
-			var file = url.val();
-			self.editor_cmd('insertImage', file);
-			panel.remove(); 
-			return false;
-		}
-	)
 }
 
 function lwrte_unformat() {
@@ -436,17 +465,51 @@ function lwrte_cleanup_word() {
 
 function lwrte_link() {
 	var self = this;
-	var panel = self.create_panel("Create link / Attach file", 385);
 
-	panel.append('\
-<p><label>URL</label><input type="text" id="url" size="30" value=""><button id="file">Attach File</button><button id="view">View</button></p>\
+	var body = '\
+<p><label for="url">URL</label><input type="text" id="url" size="30" value=""><button id="file" class="btn">Attach File</button><button id="view" class="btn">View</button></p>\
 <div class="clear"></div>\
-<p><label>Title</label><input type="text" id="title" size="30" value=""><label>Target</label><select id="target"><option value="">default</option><option value="_blank">new</option></select></p>\
-<div class="clear"></div>\
-<p class="submit"><button id="ok">Ok</button><button id="cancel">Cancel</button></p>'
-).show();
+<p><label for="title">Title</label><input type="text" id="title" size="30" value=""><label>Target</label><select id="target"><option value="">default</option><option value="_blank">new</option></select></p>\
+<div class="clear"></div>';
 
-	$('#cancel', panel).click( function() { panel.remove(); return false; } );
+	var onOkClicked = function() {
+		var url = $('#url', panel).val();
+		var target = $('#target', panel).val();
+		var title = $('#title', panel).val();
+
+		if(self.get_selected_text().length <= 0) {
+			alert('Select the text you wish to link!');
+			return false;
+		}
+
+		if(url.length <= 0)
+			return false;
+
+		self.editor_cmd('unlink');
+
+		// we wanna well-formed linkage (<p>,<h1> and other block types can't be inside of link due to WC3)
+		self.editor_cmd('createLink', rte_tag);
+		var tmp = $('<span></span>').append(self.get_selected_html());
+
+		if(target.length > 0)
+			$('a[href*="' + rte_tag + '"]', tmp).attr('target', target);
+
+		if(title.length > 0)
+			$('a[href*="' + rte_tag + '"]', tmp).attr('title', title);
+
+		$('a[href*="' + rte_tag + '"]', tmp).attr('href', url);
+			
+		self.selection_replace_with(tmp.html());
+	};
+
+	var panel = self.create_panel({
+		title: "Create link / Attach file"
+		,body: body
+		,btnCancelText: "Cancel"
+		,btnOkText: "Ok"
+		,onOkClicked: onOkClicked
+		,animationEnabled: true
+	});
 
 	var url = $('#url', panel);
 	var upload = $('#file', panel).upload( {
@@ -471,38 +534,4 @@ function lwrte_link() {
 	}
 	);
 
-	$('#ok', panel).click( 
-		function() {
-			var url = $('#url', panel).val();
-			var target = $('#target', panel).val();
-			var title = $('#title', panel).val();
-
-			if(self.get_selected_text().length <= 0) {
-				alert('Select the text you wish to link!');
-				return false;
-			}
-
-			panel.remove(); 
-
-			if(url.length <= 0)
-				return false;
-
-			self.editor_cmd('unlink');
-
-			// we wanna well-formed linkage (<p>,<h1> and other block types can't be inside of link due to WC3)
-			self.editor_cmd('createLink', rte_tag);
-			var tmp = $('<span></span>').append(self.get_selected_html());
-
-			if(target.length > 0)
-				$('a[href*="' + rte_tag + '"]', tmp).attr('target', target);
-
-			if(title.length > 0)
-				$('a[href*="' + rte_tag + '"]', tmp).attr('title', title);
-
-			$('a[href*="' + rte_tag + '"]', tmp).attr('href', url);
-				
-			self.selection_replace_with(tmp.html());
-			return false;
-		}
-	)
 }

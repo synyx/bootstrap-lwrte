@@ -300,45 +300,120 @@ lwRTE.prototype.create_toolbar = function(controls) {
 	return tb.get(0);
 }
 
-lwRTE.prototype.create_panel = function(title, width) {
-	var self = this;
-	var tb = self.get_toolbar();
+/*
+ * @props { title : string,
+ *			body : string,
+ *			btnOkText : string,
+ *			btnCancelText : string,
+ *			onOkClicked : function,
+ *			onCancelClicked : function,
+ *			animationEnabled : boolean }
+ */
+lwRTE.prototype.create_panel = function(props) {
 
-	if(!tb)
-		return false;
+	var $modal
+	    ,$modalHeader
+	    ,$modalBody
+	    ,$modalFooter
+	    ,$title			// titel of the modal, modal-header
+		,$btnClose		// close button, top right
+	    ,$btnCancel		// cancel button, footer
+	    ,$btnOk;		// ok button, footer
 
-	$('.rte-panel', tb).remove();
-	var drag, event;
-	var left = self.event.pageX;
-	var top = self.event.pageY;
-	
-	var panel	= $('<div></div>').hide().addClass('rte-panel').css({left: left, top: top});
-	$('<div></div>')
-		.addClass('rte-panel-title')
-		.html(title)
-		.append($("<a class='close' href='#'>X</a>")
-		.click( function() { panel.remove(); return false; }))
-		.mousedown( function() { drag = true; return false; })
-		.mouseup( function() { drag = false; return false; })
-		.mousemove( 
-			function(e) {
-				if(drag && event) {
-					left -= event.pageX - e.pageX;
-					top -=  event.pageY - e.pageY;
-					panel.css( {left: left, top: top} ); 
+	var title				= props.title || ""
+		,body				= props.body
+		,btnOkText			= props.btnOkText || "Ok"
+		,btnCancelText		= props.btnCancelText
+		,onOkClicked		= props.onOkClicked
+		,onCancelClicked	= props.onCancelClicked
+		// TODO configurable default value for animation?
+		,animationEnabled	= props.animationEnabled || true;
+
+	/* --- HEADER -------------------------------*/
+	$btnClose = $("<button></button>")
+		.addClass("close")
+		.attr({
+			"type": "button"
+			, "data-dismiss": "modal"
+			, "aria-hidden": "true"
+		})
+		.append("x");
+
+	$title = $("<h3></h3>")
+		.attr("id", "modalLabel")
+		// TODO security
+		.append(title);
+
+	$modalHeader = $("<div></div>")
+		.addClass("modal-header")
+		.append($btnClose)
+		.append($title);
+
+
+	/* --- BODY ---------------------------------*/
+	$modalBody = $("<div></div>")
+		.addClass("modal-body")
+		// TODO security
+		.append(body);
+
+
+	/* --- FOOTER -------------------------------*/
+	if (btnCancelText) {
+		// cancel button is optional
+
+		$btnCancel = $("<button></button>")
+			.addClass("btn")
+			.attr({"data-dismiss": "modal", "aria-hidden": "true"})
+			.click(function() {
+				if (onCancelClicked) {
+					onCancelClicked();
 				}
+				$modal.modal("hide");
+				// as long as $modal is no singleton, we have to remove it from the dom
+				$modal.remove();
+			})
+			// TODO security
+			.append(btnCancelText);
+	}
 
-				event = e;
-				return false;
-			} 
-		)
-		.appendTo(panel);
+	$btnOk = $("<button></button>")
+		.addClass("btn btn-primary")
+		.click(function() {
+			if (onOkClicked) {
+				onOkClicked();
+			}
+			$modal.modal("hide");
+			// as long as $modal is no singleton, we have to remove it from the dom
+			$modal.remove();
+		})
+		// TODO security
+		.append(btnOkText);
 
-	if(width)
-		panel.width(width);
+	$modalFooter = $("<div></div>").addClass("modal-footer");
+	if ($btnCancel) {
+		// cancel button must be added first to be on the left side of the ok button
+		$modalFooter.append($btnCancel);
+	}
+	$modalFooter.append($btnOk);
 
-	tb.append(panel);
-	return panel;
+	/* --- MODAL ----------------------------*/
+	$modal = $("<div></div>")
+		.addClass("rte-panel modal hide")
+		.attr({
+			"id" : "myModal"
+			, "tabindex": "-1"
+			, "role": "dialog"
+			, "aria-labelledby": "modalLabel"
+			, "aria-hidden": "true"
+		})
+		.append($modalHeader)
+		.append($modalBody)
+		.append($modalFooter);
+
+	$modal.modal("show");
+
+	return $modal;
+
 }
 
 lwRTE.prototype.get_content = function() {

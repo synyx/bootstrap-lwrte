@@ -1,9 +1,6 @@
 .rte-zone {
-	margin: 0;
-	padding: 0;
-	border: 1px #999 solid;
+	border: 1px #ccc solid;
     clear: both;
-	font-size: 10px;
 }
 
 .rte-zone textarea {
@@ -21,7 +18,7 @@
 	margin:0;
 	padding: 0;
 	display: block;
-	border-top: 1px solid #999;
+	border-top: 1px solid #ccc;
 	background-color: #fdfdfd;
 }
 
@@ -35,12 +32,13 @@
 	cursor: se-resize;
 	margin-top: 4px;
 }
+
 .rte-toolbar {
 	width: 100%;
 	margin:0;
 	padding: 0;
 	display: block;
-	border-bottom: 1px dashed #999;
+	border-bottom: 1px solid #ccc;
 	background-color: #fdfdfd;
 	font-size: 10px;
 }
@@ -52,100 +50,36 @@
 }
 
 .rte-toolbar select {
+	width: auto !important;
 	font-size: 10px;
 	height: 16px;
 	padding: 0;
 	margin: 0;
 }
 
-.rte-panel {
-	position: absolute;
-	left: 0;
-	top: 0;
-	border: 1px solid #999;
-	display: block;
-	clear: both;
-	margin: 0px;
-	padding: 5px 5px 0 5px;
-	background: #f0f0f0;
-	font-size: 10px;
-}
-
-.rte-panel div.rte-panel-title {
-	font-weight: bold;
-	margin: -5px -5px 5px -5px;
-	padding: 5px;
-	height: 16px;
-	line-height: 16px;
-	background: #e0e0e0;
-	border-bottom: 1px solid #ccc;
-	display: block;
-	clear: both;
-	cursor: move;
-}
-
-.rte-panel div.rte-panel-title .close {
-	position: absolute;
-	top: 0;
-	right: 0;
-	display: block;
-	float: right;
-	text-decoration: none;
-	font-size: 14px;
-	font-weight: bold;
-	color: #f00;
-}
-
 .rte-panel label {
-	display: block;
-	float: left;
-	width: 50px;
-	margin: 0 5px 0 2px;
-	font-weight: bold;
-	font-size: 10px;
-	text-align: right;
-	line-height: 20px;
-	font-size: 100%;
-}
-
-.rte-panel input, .rte-panel select {
-	margin: 0 5px 0 2px;
-	padding: 0;
-	height: 20px;
-	font-size: 10px;
-	border: 1px solid #ccc;
 	float: left;
 	vertical-align: middle;
-	line-height: 20px;
-}
-
-.rte-panel button  {
-	margin: 0 5px 0 2px;
-	padding: 2px 5px;
-	font-size: 10px;
-	border: 1px solid #ccc;
-	float: left;
-	vertical-align: middle;
-}
-
-.rte-panel p.submit {
-	margin: 5px -5px 0 -5px;
-	padding: 5px;
-	height: 20px;
-	line-height: 20px;
-	background: #e0e0e0;
-	border-top: 1px solid #ccc;
-	display: block;
-	clear: both;
-}
-.rte-panel p.submit button {
-	width: 60px;
-	padding: 2px 5px;
-	margin-left: 10px;
+	/*line-height: 20px;*/
 	font-weight: bold;
+	width: 44px;
 }
 
-.rte-panel .colorpicker1, .rte-panel .colorpicker2 { 
+.rte-panel input {
+	float: left;
+	margin: 0 5px 0 2px;
+}
+
+.rte-panel select {
+	width: auto !important;
+}
+
+.rte-panel .modal-body > .btn,
+.rte-panel .modal-body p > .btn {
+	margin-left: 4px;
+}
+
+.rte-panel .colorpicker1, .modal .colorpicker2 { 
 	margin: 0 5px 0 0;
 	padding: 0;
 	float: left;
