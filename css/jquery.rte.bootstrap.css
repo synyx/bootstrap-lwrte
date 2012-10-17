@@ -3,7 +3,7 @@
 	padding: 0;
 	border: 1px #999 solid;
     clear: both;
-	font: 10px Tahoma, Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
 }
 
 .rte-zone textarea {
@@ -42,7 +42,7 @@
 	display: block;
 	border-bottom: 1px dashed #999;
 	background-color: #fdfdfd;
-	font: 10px Tahoma, Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
 }
 
 .rte-toolbar p {
@@ -52,7 +52,7 @@
 }
 
 .rte-toolbar select {
-	font: 10px Tahoma, Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
 	height: 16px;
 	padding: 0;
 	margin: 0;
@@ -68,7 +68,7 @@
 	margin: 0px;
 	padding: 5px 5px 0 5px;
 	background: #f0f0f0;
-	font: 10px Tahoma, Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
 }
 
 .rte-panel div.rte-panel-title {
