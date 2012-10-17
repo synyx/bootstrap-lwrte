@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="fr-ch" lang="fr-ch">
+<head>
+<title>A Light weight RTE jQuery Plugin</title>
+<link type="text/css" rel="stylesheet" href="jquery.rte.css" />
+<style type="text/css">
+body, textarea {
+    font-family:sans-serif;
+    font-size:12px;
+}
+</style>
+</head>
+<body>
+
+<div id="main" style="width:800px;">
+<form>
+    <p>
+        <textarea name="form[info1]" cols="100" rows="10"  class="rte1" method="post" action="#">
+<h2>Light weight Rich Text Editor (WYSIWYG) for jQuery</h2>
+<p>Do you need <b>really lightweight and unbloated Rich Text Editor (WYSIWYG) for JQuery</b> and ability to extend it as you want? <b>So you at right place.</b></p>
+<p>So why yet another "lightweight" RTE editor? The major reason - i couldn't find RTE editor:
+<ol>
+	<li>without any builtin toolbars (you can turn off controls only, but this other case), </li>
+	<li>really jQuery plugin, but not wrapper (I'm using jQuery in my projects, that's why best choice - real jQuery plugin),</li>
+	<li>easy to extend (for example - file uploads.</li>
+	<li><b>different toolbars</b> for design mode and source mode</li>
+</ol>
+
+I tried to make this Rich Text Editor as simple as possible to be easily changed according your needs. <br/>
+The file "jquery.rte.js" is <b>only 9kb uncompressed</b>. This has all that your editor probably need, but has not builtin toolbars - you can extend it easily as you want. <br/>
+<br/>
+I also provided basic toolbar (<b>actually it has almost same features as other WYSIWYG editors</b>), <b><u>include Image/File uploads</u></b> (you will have to configure your server script for uploads or update "uploader.php" from example).
+<br/><br/>
+This editor is compatible with major browsers (IE6, Firefox 2, Opera 9, Safari 3.03) and degrade gracefully in a textarea for others.</p>
+<p>P.S.: Tested with jQuery 1.2.6 and 1.3</p>
+		</textarea>
+    </p>
+    <p>
+        <textarea name="form[info2]" id="test" class="rte2" method="post" action="#"></textarea>
+    </p>
+    <input type="submit" />
+</form>
+<div id="test"></div>
+    
+<script type="text/javascript" src="jquery.js"></script>
+<script type="text/javascript" src="jquery.rte.js"></script>
+<script type="text/javascript" src="jquery.rte.tb.js"></script>
+<script type="text/javascript" src="jquery.ocupload-1.1.4.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	var arr = $('.rte1').rte({
+		css: ['default.css'],
+		controls_rte: rte_toolbar,
+		controls_html: html_toolbar
+	});
+
+	$('.rte2').rte({
+		css: ['default.css'],
+		width: 450,
+		height: 200,
+		controls_rte: rte_toolbar,
+		controls_html: html_toolbar
+	}, arr);
+});
+</script>
+
+<hr>
+</body>
+</html>
