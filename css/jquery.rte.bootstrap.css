@@ -26,7 +26,7 @@
 }
 
 .rte-resizer a { 
-	background: url('images/rte_icons.gif') no-repeat 0 0; 
+	background: url('../images/rte_icons.gif') no-repeat 0 0; 
 	background-position: 0 -688px; 
 	width: 16px;
 	height: 16px;
@@ -158,14 +158,14 @@
 }
 
 .rte-panel .colorpicker1 .rgb {
-	background: url('images/rte_colorpicker_rgb.jpg') no-repeat 0 0; 
+	background: url('../images/rte_colorpicker_rgb.jpg') no-repeat 0 0; 
 	width: 300px;
 	height: 150px;
 	cursor: crosshair;
 }
 
 .rte-panel .colorpicker1 .gray{
-	background: url('images/rte_colorpicker_gray.jpg') no-repeat 0 0; 
+	background: url('../images/rte_colorpicker_gray.jpg') no-repeat 0 0; 
 	width: 15px;
 	height: 150px;
 	cursor: crosshair;
@@ -274,7 +274,7 @@
 	display: block; 
 	width: 16px; 
 	height: 16px; 
-	background: url('images/rte_icons.gif') no-repeat 0 0; 
+	background: url('../images/rte_icons.gif') no-repeat 0 0; 
 	cursor: pointer; 
 	margin: 0;
 	padding: 0; 
