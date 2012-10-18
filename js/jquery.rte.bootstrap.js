@@ -249,43 +249,54 @@ lwRTE.prototype.toolbar_click = function(obj, control) {
 	
 lwRTE.prototype.create_toolbar = function(controls) {
 	var self = this;
-	var tb = $("<div></div>").addClass('rte-toolbar').width('100%').append($("<ul></ul>")).append($("<div></div>").addClass('clear'));
-	var obj, li;
+	var $ul = $("<ul></ul>");
+
+	//var tb = $("<div></div>").addClass('rte-toolbar').width('100%').append($("<ul></ul>")).append($("<div></div>").addClass('clear'));
 	
 	for (var key in controls){
-		if(controls[key].separator) {
-			li = $("<li></li>").addClass('separator');
-		} else {
-			if(controls[key].init) {
-				try {
-					controls[key].init.apply(controls[key], [this]);
-				} catch(e) {
-				}
-			}
-			
-			if(controls[key].select) {
-				obj = $(controls[key].select)
-					.change( function(e) {
-						self.event = e;
-						self.toolbar_click(this, controls[this.className]); 
-						return false;
-					});
+		(function(key){
+
+			var obj, li;
+
+			if(controls[key].separator) {
+				li = $("<li></li>").addClass('rte-separator');
+
 			} else {
-				obj = $("<a href='#'></a>")
-					.attr('title', (controls[key].hint) ? controls[key].hint : key)
-					.attr('rel', key)
-					.click( function(e) {
-						self.event = e;
-						self.toolbar_click(this, controls[this.rel]); 
-						return false;
-					})
+				if(controls[key].init) {
+					try {
+						controls[key].init.apply(controls[key], [this]);
+					} catch(e) {
+					}
+				}
+
+				if(controls[key].select) {
+					obj = $("<div></div>").html(controls[key].select);
+					$(obj).find("a").each(function(idx, a) {
+						$(a).click(function(e) {
+							self.event = e;
+							self.toolbar_click(this, controls[key]);
+						});
+					});
+
+				} else {
+					obj = $("<a href='#'></a>")
+					 	.attr('title', (controls[key].hint) ? controls[key].hint : key)
+					 	.attr('rel', key)
+					 	.click( function(e) {
+					 		self.event = e;
+					 		self.toolbar_click(this, controls[this.rel]); 
+					 		return false;
+					 	});
+				}
+
+				li = $("<li></li>").append(obj.addClass(key));
 			}
 
-			li = $("<li></li>").append(obj.addClass(key));
-		}
-
-		$("ul",tb).append(li);
+			$ul.append(li);
+		})(key);
 	}
+
+	var tb = $("<div></div>").addClass("rte-toolbar").append($ul);
 
 	$('.enable', tb).click(function() {
 		self.enable_design_mode();

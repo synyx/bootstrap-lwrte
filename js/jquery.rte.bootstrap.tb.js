@@ -27,44 +27,50 @@ var	rte_toolbar = {
 	unorderedList	: {command: 'insertunorderedlist', tags: ['ul'] },
 	s6				: {separator : true },
 	block			: {command: 'formatblock', select: '\
-<select>\
-	<option value="">- format -</option>\
-	<option value="<p>">Paragraph</option>\
-	<option value="<h1>">Header 1</option>\
-	<option value="<h2>">Header 2</options>\
-	<option value="<h3>">Header 3</option>\
-	<option value="<h4>">Header 4</options>\
-	<option value="<h5>">Header 5</option>\
-	<option value="<h6>">Header 6</options>\
-</select>\
+<div class="btn-group">\
+	<button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">format<span class="caret"></span></button>\
+	<ul class="dropdown-menu">\
+		<li><a href="javascript:; value="<p>">Paragraph</a></li>\
+		<li><a href="javascript:;" value="<h1>">Header 1</a></li>\
+		<li><a href="javascript:;" value="<h2>">Header 2</a></li>\
+		<li><a href="javascript:;" value="<h3>">Header 3</a></li>\
+		<li><a href="javascript:;" value="<h4>">Header 4</a></li>\
+		<li><a href="javascript:;" value="<h5>">Header 5</a></li>\
+		<li><a href="javascript:;" value="<h6>">Header 6</a></li>\
+	</ul>\
+</div>\
 	', tag_cmp: lwrte_block_compare, tags: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']},
 	font			: {command: 'fontname', select: '\
-<select>\
-	<option value="">- font -</option>\
-	<option value="arial">Arial</option>\
-	<option value="comic sans ms">Comic Sans</option>\
-	<option value="courier new">Courier New</options>\
-	<option value="georgia">Georgia</option>\
-	<option value="helvetica">Helvetica</options>\
-	<option value="impact">Impact</option>\
-	<option value="times new roman">Times</options>\
-	<option value="trebuchet ms">Trebuchet</options>\
-	<option value="verdana">Verdana</options>\
-</select>\
+<div class="btn-group">\
+	<button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">font<span class="caret"></span></button>\
+	<ul class="dropdown-menu">\
+		<li><a href="javascript:;" value="arial">Arial</a></li>\
+		<li><a href="javascript:;" value="comic sans ms">Comcic Sans</a></li>\
+		<li><a href="javascript:;" value="courier new">Courier New</a></li>\
+		<li><a href="javascript:;" value="georgia">Georgia</a></li>\
+		<li><a href="javascript:;" value="helvetica">Helvetica</a></li>\
+		<li><a href="javascript:;" value="impact">Impact</a></li>\
+		<li><a href="javascript:;" value="times new roman">Times</a></li>\
+		<li><a href="javascript:;" value="trebuchet ms">Trebuchet</a></li>\
+		<li><a href="javascript:;" value="verdana">Verdana</a></li>\
+	</ul>\
+</div>\
 	', tags: ['font']},
 	size			: {command: 'fontsize', select: '\
-<select>\
-	<option value="">-</option>\
-	<option value="1">1 (8pt)</option>\
-	<option value="2">2 (10pt)</option>\
-	<option value="3">3 (12pt)</options>\
-	<option value="4">4 (14pt)</option>\
-	<option value="5">5 (16pt)</options>\
-	<option value="6">6 (18pt)</option>\
-	<option value="7">7 (20pt)</options>\
-</select>\
+<div class="btn-group">\
+	<button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">size<span class="caret"></span></button>\
+	<ul class="dropdown-menu">\
+		<li><a href="javascript:;">1 (8pt)</a></li>\
+		<li><a href="javascript:;">2 (10pt)</a></li>\
+		<li><a href="javascript:;">3 (12pt)</a></li>\
+		<li><a href="javascript:;">4 (14pt)</a></li>\
+		<li><a href="javascript:;">5 (16pt)</a></li>\
+		<li><a href="javascript:;">6 (18pt)</a></li>\
+		<li><a href="javascript:;">7 (20pt)</a></li>\
+	</ul>\
+</div>\
 	', tags: ['font']},
-	style			: {exec: lwrte_style, init: lwrte_style_init},
+	// style			: {exec: lwrte_style, init: lwrte_style_init},
 	color			: {exec: lwrte_color},
 	image			: {exec: lwrte_image, tags: ['img'] },
 	link			: {exec: lwrte_link, tags: ['a'] },

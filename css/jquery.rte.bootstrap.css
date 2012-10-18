@@ -40,7 +40,6 @@
 	display: block;
 	border-bottom: 1px solid #ccc;
 	background-color: #fdfdfd;
-	font-size: 10px;
 }
 
 .rte-toolbar p {
@@ -182,14 +181,14 @@
 	margin: 0;
 }
 
-.rte-toolbar ul { 
+.rte-toolbar > ul { 
 	display: block;
 	margin: 0px;
 	padding: 0;
 	width: 100%;
 }
 
-.rte-toolbar ul li { 
+.rte-toolbar > ul > li { 
 	list-style-type: none; 
 	float: left;
 	padding: 0;
@@ -197,13 +196,13 @@
 	height: 16px;
 }
 
-.rte-toolbar ul li.separator { 
+.rte-toolbar > ul > li.rte-separator { 
 	height: 16px; 
 	margin: 5px;
 	border-left: 1px solid #ccc; 
 }
 
-.rte-toolbar ul li a { 
+.rte-toolbar > ul > li > a { 
 	border: 1px solid #fdfdfd;
 	display: block; 
 	width: 16px; 
@@ -217,46 +216,46 @@
 	filter: alpha(opacity = 50);
 }
 
-.rte-toolbar ul li a:hover, .rte-toolbar ul li a.active {
+.rte-toolbar > ul > li > a:hover, .rte-toolbar > ul > li > a.active {
 	opacity: 1.0; 
 	-moz-opacity: 1.0;
 	filter: alpha(opacity = 100);
 }
 
-.rte-toolbar ul li a.active { 
+.rte-toolbar > ul > li > a.active { 
 	background-color: #f9f9f9; 
 	border: 1px solid #ccc; 
 }
 
-.rte-toolbar ul li a.empty { background-position: 0px 0px; }
-.rte-toolbar ul li a.bold { background-position: 0 -112px; }
-.rte-toolbar ul li a.italic { background-position: 0 -128px; }
-.rte-toolbar ul li a.strikeThrough { background-position: 0 -144px; }
-.rte-toolbar ul li a.underline { background-position: 0 -160px; }
-.rte-toolbar ul li a.subscript { background-position: 0 -176px; }
-.rte-toolbar ul li a.superscript { background-position: 0 -192px; }
-.rte-toolbar ul li a.disable { background-position: 0 -480px; }
-.rte-toolbar ul li a.enable { background-position: 0 -592px; }
-.rte-toolbar ul li a.unorderedList { background-position: 0 -320px; }
-.rte-toolbar ul li a.orderedList{ background-position: 0 -336px; }
-.rte-toolbar ul li a.justifyLeft { background-position: 0 -16px; }
-.rte-toolbar ul li a.justifyCenter { background-position: 0 -32px; }
-.rte-toolbar ul li a.justifyRight { background-position: 0 -48px; }
-.rte-toolbar ul li a.justifyFull { background-position: 0 -64px; }
-.rte-toolbar ul li a.indent { background-position: 0 -80px; }
-.rte-toolbar ul li a.outdent { background-position: 0 -96px; }
-.rte-toolbar ul li a.removeFormat { background-position: 0 -352px; }
-.rte-toolbar ul li a.h1 { background-position: 0 -208px; }
-.rte-toolbar ul li a.h2 { background-position: 0 -224px; }
-.rte-toolbar ul li a.h3 { background-position: 0 -240px; }
-.rte-toolbar ul li a.h4 { background-position: 0 -256px; }
-.rte-toolbar ul li a.h5 { background-position: 0 -272px; }
-.rte-toolbar ul li a.h6 { background-position: 0 -288px; }
-.rte-toolbar ul li a.increaseFontSize { background-position: 0 -512px; }
-.rte-toolbar ul li a.decreaseFontSize { background-position: 0 -528px; }
-.rte-toolbar ul li a.image { background-position: 0 -560px; }
-.rte-toolbar ul li a.word { background-position: 0 -576px; }
-.rte-toolbar ul li a.clear { background-position: 0 -608px; }
-.rte-toolbar ul li a.link { background-position: 0 -384px; }
-.rte-toolbar ul li a.color { background-position: 0 -624px; }
-.rte-toolbar ul li a.unlink { background-position: 0 -640px; }
+.rte-toolbar > ul > li > a.empty { background-position: 0px 0px; }
+.rte-toolbar > ul > li > a.bold { background-position: 0 -112px; }
+.rte-toolbar > ul > li > a.italic { background-position: 0 -128px; }
+.rte-toolbar > ul > li > a.strikeThrough { background-position: 0 -144px; }
+.rte-toolbar > ul > li > a.underline { background-position: 0 -160px; }
+.rte-toolbar > ul > li > a.subscript { background-position: 0 -176px; }
+.rte-toolbar > ul > li > a.superscript { background-position: 0 -192px; }
+.rte-toolbar > ul > li > a.disable { background-position: 0 -480px; }
+.rte-toolbar > ul > li > a.enable { background-position: 0 -592px; }
+.rte-toolbar > ul > li > a.unorderedList { background-position: 0 -320px; }
+.rte-toolbar > ul > li > a.orderedList{ background-position: 0 -336px; }
+.rte-toolbar > ul > li > a.justifyLeft { background-position: 0 -16px; }
+.rte-toolbar > ul > li > a.justifyCenter { background-position: 0 -32px; }
+.rte-toolbar > ul > li > a.justifyRight { background-position: 0 -48px; }
+.rte-toolbar > ul > li > a.justifyFull { background-position: 0 -64px; }
+.rte-toolbar > ul > li > a.indent { background-position: 0 -80px; }
+.rte-toolbar > ul > li > a.outdent { background-position: 0 -96px; }
+.rte-toolbar > ul > li > a.removeFormat { background-position: 0 -352px; }
+.rte-toolbar > ul > li > a.h1 { background-position: 0 -208px; }
+.rte-toolbar > ul > li > a.h2 { background-position: 0 -224px; }
+.rte-toolbar > ul > li > a.h3 { background-position: 0 -240px; }
+.rte-toolbar > ul > li > a.h4 { background-position: 0 -256px; }
+.rte-toolbar > ul > li > a.h5 { background-position: 0 -272px; }
+.rte-toolbar > ul > li > a.h6 { background-position: 0 -288px; }
+.rte-toolbar > ul > li > a.increaseFontSize { background-position: 0 -512px; }
+.rte-toolbar > ul > li > a.decreaseFontSize { background-position: 0 -528px; }
+.rte-toolbar > ul > li > a.image { background-position: 0 -560px; }
+.rte-toolbar > ul > li > a.word { background-position: 0 -576px; }
+.rte-toolbar > ul > li > a.clear { background-position: 0 -608px; }
+.rte-toolbar > ul > li > a.link { background-position: 0 -384px; }
+.rte-toolbar > ul > li > a.color { background-position: 0 -624px; }
+.rte-toolbar > ul > li > a.unlink { background-position: 0 -640px; }
