@@ -447,6 +447,10 @@ lwRTE.prototype.create_panel = function(props) {
 		.append($modalBody)
 		.append($modalFooter);
 
+	if (animationEnabled) {
+		$modal.addClass("fade");
+	}
+
 	$modal.modal("show");
 
 	return $modal;
