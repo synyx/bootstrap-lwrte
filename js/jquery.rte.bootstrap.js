@@ -319,7 +319,10 @@ lwRTE.prototype.create_toolbar = function(controls) {
 		})(key);
 	}
 
-	var tb = $("<div></div>").addClass("rte-toolbar").append($ul);
+	var $clear = $("<div>").css({clear: "both"});
+	var tb = $("<div></div>").addClass("rte-toolbar")
+			.append($ul)
+			.append($clear);
 
 	$('.enable', tb).click(function() {
 		self.enable_design_mode();
