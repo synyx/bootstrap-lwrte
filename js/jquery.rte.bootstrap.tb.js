@@ -26,50 +26,37 @@ var	rte_toolbar = {
 	orderedList		: {command: 'insertorderedlist', tags: ['ol'] },
 	unorderedList	: {command: 'insertunorderedlist', tags: ['ul'] },
 	s6				: {separator : true },
-	block			: {command: 'formatblock', select: '\
-<div class="btn-group">\
-	<button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">format<span class="caret"></span></button>\
-	<ul class="dropdown-menu">\
-		<li><a href="javascript:; value="<p>">Paragraph</a></li>\
-		<li><a href="javascript:;" value="<h1>">Header 1</a></li>\
-		<li><a href="javascript:;" value="<h2>">Header 2</a></li>\
-		<li><a href="javascript:;" value="<h3>">Header 3</a></li>\
-		<li><a href="javascript:;" value="<h4>">Header 4</a></li>\
-		<li><a href="javascript:;" value="<h5>">Header 5</a></li>\
-		<li><a href="javascript:;" value="<h6>">Header 6</a></li>\
-	</ul>\
-</div>\
-	', tag_cmp: lwrte_block_compare, tags: ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6']},
-	font			: {command: 'fontname', select: '\
-<div class="btn-group">\
-	<button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">font<span class="caret"></span></button>\
-	<ul class="dropdown-menu">\
-		<li><a href="javascript:;" value="arial">Arial</a></li>\
-		<li><a href="javascript:;" value="comic sans ms">Comcic Sans</a></li>\
-		<li><a href="javascript:;" value="courier new">Courier New</a></li>\
-		<li><a href="javascript:;" value="georgia">Georgia</a></li>\
-		<li><a href="javascript:;" value="helvetica">Helvetica</a></li>\
-		<li><a href="javascript:;" value="impact">Impact</a></li>\
-		<li><a href="javascript:;" value="times new roman">Times</a></li>\
-		<li><a href="javascript:;" value="trebuchet ms">Trebuchet</a></li>\
-		<li><a href="javascript:;" value="verdana">Verdana</a></li>\
-	</ul>\
-</div>\
-	', tags: ['font']},
-	size			: {command: 'fontsize', select: '\
-<div class="btn-group">\
-	<button class="btn btn-mini dropdown-toggle" data-toggle="dropdown">size<span class="caret"></span></button>\
-	<ul class="dropdown-menu">\
-		<li><a href="javascript:;">1 (8pt)</a></li>\
-		<li><a href="javascript:;">2 (10pt)</a></li>\
-		<li><a href="javascript:;">3 (12pt)</a></li>\
-		<li><a href="javascript:;">4 (14pt)</a></li>\
-		<li><a href="javascript:;">5 (16pt)</a></li>\
-		<li><a href="javascript:;">6 (18pt)</a></li>\
-		<li><a href="javascript:;">7 (20pt)</a></li>\
-	</ul>\
-</div>\
-	', tags: ['font']},
+	block			: {command: 'formatblock', dropdown: {
+		title: "format",
+		items: [{title: "Paragraph", value: "<p>"},
+			{title: "Header 1", value: "<h1>"},
+			{title: "Header 2", value: "<h2>"},
+			{title: "Header 3", value: "<h3>"},
+			{title: "Header 4", value: "<h4>"},
+			{title: "Header 5", value: "<h5>"},
+			{title: "Header 6", value: "<h6>"}]
+	}},
+	font			: {command: 'fontname', dropdown: {
+		title: "font",
+		items: [{title: "Arial", value: "arial"},
+			{title: "Comic Sans", value: "comic sans ms"},
+			{title: "Courier New", value: "courier new"},
+			{title: "Georgia", value: "georgia"},
+			{title: "Helvetica", value: "helvetica"},
+			{title: "Impact", value: "impact"},
+			{title: "Times", value: "times new roman"},
+			{title: "Verdana", value: "verdana"}]
+	}},
+	size			: {command: 'fontsize', dropdown: {
+		title: "size",
+		items: [{title: "1 (8pt)", value: "1"},
+			{title: "2 (10pt)", value: "2"},
+			{title: "3 (12pt)", value: "3"},
+			{title: "4 (14pt)", value: "4"},
+			{title: "5 (16pt)", value: "5"},
+			{title: "6 (18pt)", value: "6"},
+			{title: "7 (20pt)", value: "7"}]
+	}},
 	// style			: {exec: lwrte_style, init: lwrte_style_init},
 	color			: {exec: lwrte_color},
 	image			: {exec: lwrte_image, tags: ['img'] },

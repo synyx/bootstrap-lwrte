@@ -219,29 +219,21 @@ lwRTE.prototype.disable_design_mode = function(submit) {
 	}
 }
     
-lwRTE.prototype.toolbar_click = function(obj, control) {
+lwRTE.prototype.toolbar_click = function(obj, control, value) {
 	var fn = control.exec;
 	var args = control.args || [];
-	var is_select = (obj.tagName.toUpperCase() == 'SELECT');
-	
-	$('.rte-panel', this.get_toolbar()).remove();
 
 	if(fn) {
-		if(is_select)
+		if(value)
 			args.push(obj);
 
 		try {
 			fn.apply(this, args);
 		} catch(e) {
-
+			throw new Error(e);
 		}
 	} else if(this.iframe && control.command) {
-		if(is_select) {
-			args = obj.options[obj.selectedIndex].value;
-
-			if(args.length <= 0)
-				return;
-		}
+		if(value) args = value;
 
 		this.editor_cmd(control.command, args);
 	}
@@ -256,7 +248,7 @@ lwRTE.prototype.create_toolbar = function(controls) {
 	for (var key in controls){
 		(function(key){
 
-			var obj, li;
+			var obj, li, $btn, $caret, $dropdown;
 
 			if(controls[key].separator) {
 				li = $("<li></li>").addClass('rte-separator');
@@ -269,7 +261,38 @@ lwRTE.prototype.create_toolbar = function(controls) {
 					}
 				}
 
-				if(controls[key].select) {
+				if(controls[key].dropdown) {
+
+					obj = $("<div></div>").addClass("btn-group");
+
+					$dropdown = $("<ul></ul>").addClass("dropdown-menu");
+					for (var i = 0; i < controls[key].dropdown.items.length; i++) {
+						(function(i){
+							
+							var $dropdownItem = $("<li>");
+
+							var $dropdownItemLink = $("<a></a>")
+								.html(controls[key].dropdown.items[i].title)
+								.click(function(e) {
+									self.event = e;
+									self.toolbar_click($dropdownItemLink, controls[key], controls[key].dropdown.items[i].value); 
+								});
+
+							$dropdownItem.append($dropdownItemLink);
+							$dropdown.append($dropdownItem);
+						})(i);
+					}
+
+					$caret = $("<span></span>").addClass("caret");
+					$btn = $("<button></button>")
+							.addClass("btn btn-mini dropdown-toggle")
+							.attr("data-toggle", "dropdown")
+							.html(controls[key].dropdown.title)
+							.append($caret);
+
+					obj.append($btn).append($dropdown);
+
+				} else if(controls[key].select) {
 					obj = $("<div></div>").html(controls[key].select);
 					$(obj).find("a").each(function(idx, a) {
 						$(a).click(function(e) {
