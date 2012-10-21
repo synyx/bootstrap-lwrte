@@ -163,6 +163,17 @@ lwRTE.prototype.enable_design_mode = function() {
 	self.iframe_doc.write(doc);
 	self.iframe_doc.close();
 
+    var root_body = window.document.body;
+
+    $(self.iframe_doc.body).click(function() {
+       var dropdown = $(root_body).find(".btn-group.open");
+       if (dropdown) {
+           dropdown.each(function(i, e) {
+               $(e).removeClass("open");
+           });
+       }
+    });
+
 	if(!self.toolbars.rte)
 		self.toolbars.rte	= self.create_toolbar(self.controls.rte);
 
