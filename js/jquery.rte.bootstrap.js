@@ -14,9 +14,10 @@ jQuery.fn.rte = function(options, editors) {
 	return editors;
 }
 
-var lwRTE_resizer = function(textarea) {
+var lwRTE_resizer = function(textarea, maxWidth) {
 	this.drag = false;
 	this.rte_zone = $(textarea).parents('.rte-zone');
+	this.maxWidth = maxWidth;
 }
 
 lwRTE_resizer.mousedown = function(resizer, e) {
@@ -38,7 +39,9 @@ lwRTE_resizer.mousemove = function(resizer, e) {
 		e = (typeof(e) == "undefined") ? window.event : e;
 		var w = Math.max(1, resizer.rte_zone.width() + e.screenX - resizer.event.screenX);
 		var h = Math.max(1, resizer.rte_obj.height() + e.screenY - resizer.event.screenY);
-		resizer.rte_zone.width(w);
+		if (w < resizer.maxWidth) {
+			resizer.rte_zone.width(w);
+		}
 		resizer.rte_obj.height(h);
 		resizer.event = e;
 	}
@@ -67,7 +70,8 @@ var lwRTE = function (textarea, options) {
 		$(textarea).wrap($('<div></div>').addClass('rte-zone').width(this.width));		
 		$('<div class="rte-resizer"><a href="#"></a></div>').insertAfter(textarea);
 
-		var resizer = new lwRTE_resizer(textarea);
+		var resizer = new lwRTE_resizer(textarea, options.maxWidth);
+
 		
 		$(".rte-resizer a", $(textarea).parents('.rte-zone')).mousedown(function(e) {
 			$(document).mousemove(function(e) {
