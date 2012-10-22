@@ -39,7 +39,7 @@ lwRTE_resizer.mousemove = function(resizer, e) {
 		e = (typeof(e) == "undefined") ? window.event : e;
 		var w = Math.max(1, resizer.rte_zone.width() + e.screenX - resizer.event.screenX);
 		var h = Math.max(1, resizer.rte_obj.height() + e.screenY - resizer.event.screenY);
-		if (w < resizer.maxWidth) {
+		if (typeof resizer.maxWidth != "number" || w < resizer.maxWidth) {
 			resizer.rte_zone.width(w);
 		}
 		resizer.rte_obj.height(h);
