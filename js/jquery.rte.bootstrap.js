@@ -25,12 +25,14 @@ lwRTE_resizer.mousedown = function(resizer, e) {
 	resizer.event = (typeof(e) == "undefined") ? window.event : e;
 	resizer.rte_obj = $(".rte-resizer", resizer.rte_zone).prev().eq(0);
 	$('body', document).css('cursor', 'se-resize');
+        $("#rte-iframe").contents().find("body").css('cursor', 'se-resize');
 	return false;
 }
 
 lwRTE_resizer.mouseup = function(resizer, e) {
 	resizer.drag = false;
 	$('body', document).css('cursor', 'auto');
+        $("#rte-iframe").contents().find("body").css('cursor', 'auto');
 	return false;
 }
 
@@ -82,6 +84,16 @@ var lwRTE = function (textarea, options) {
 				return lwRTE_resizer.mouseup(resizer, e)
 			});
 
+                        var $iframe_body = $("#rte-iframe").contents().find("body");
+
+                        $iframe_body.mousemove(function(e){
+				return lwRTE_resizer.mousemove(resizer, e)
+                        });
+
+                        $iframe_body.mouseup(function(e){
+				return lwRTE_resizer.mouseup(resizer, e)
+                        });
+
 			return lwRTE_resizer.mousedown(resizer, e);
 		});
 
@@ -118,6 +130,7 @@ lwRTE.prototype.enable_design_mode = function() {
 
 	// need to be created this way
 	self.iframe	= document.createElement("iframe");
+	self.iframe.id = "rte-iframe";
 	self.iframe.frameBorder = 0;
 	self.iframe.frameMargin = 0;
 	self.iframe.framePadding = 0;
@@ -205,7 +218,7 @@ lwRTE.prototype.enable_design_mode = function() {
 	if(!$.browser.msie)
 		self.editor_cmd('styleWithCSS', false);
 }
-    
+
 lwRTE.prototype.disable_design_mode = function(submit) {
 	var self = this;
 
@@ -213,7 +226,7 @@ lwRTE.prototype.disable_design_mode = function(submit) {
 
 	if(self.iframe.className)
 		self.textarea.className = self.iframe.className;
-
+	
 	if(self.iframe.id)
 		self.textarea.id = self.iframe.id;
 		
@@ -233,7 +246,7 @@ lwRTE.prototype.disable_design_mode = function(submit) {
 		self.activate_toolbar(self.textarea, self.toolbars.html);
 	}
 }
-    
+
 lwRTE.prototype.toolbar_click = function(obj, control, value) {
 	var fn = control.exec;
 	var args = control.args || [];
@@ -602,7 +615,7 @@ lwRTE.prototype.get_selected_html = function() {
 
 	return html;
 };
-	
+
 lwRTE.prototype.selection_replace_with = function(html) {
 	var rng	= this.get_selection_range();
 	var iframe_window = this.iframe.contentWindow;
