@@ -14,11 +14,12 @@ jQuery.fn.rte = function(options, editors) {
 	return editors;
 }
 
-var lwRTE_resizer = function(textarea, maxWidth) {
+var lwRTE_resizer = function(textarea, minWidth, maxWidth) {
 	this.drag = false;
 	this.rte_zone = $(textarea).parents('.rte-zone');
+	this.minWidth = minWidth;
 	this.maxWidth = maxWidth;
-}
+};
 
 lwRTE_resizer.mousedown = function(resizer, e) {
 	resizer.drag = true;
@@ -41,66 +42,120 @@ lwRTE_resizer.mousemove = function(resizer, e) {
 		e = (typeof(e) == "undefined") ? window.event : e;
 		var w = Math.max(1, resizer.rte_zone.width() + e.screenX - resizer.event.screenX);
 		var h = Math.max(1, resizer.rte_obj.height() + e.screenY - resizer.event.screenY);
-		if (typeof resizer.maxWidth != "number" || w < resizer.maxWidth) {
+
+		var isMinWidthOk = w >= resizer.minWidth;
+		var isMaxWidthOk = typeof resizer.maxWidth != "number" || w <= resizer.maxWidth;
+
+		if (isMinWidthOk && isMaxWidthOk) {
 			resizer.rte_zone.width(w);
 		}
 		resizer.rte_obj.height(h);
 		resizer.event = e;
 	}
 	return false;
-}
+};
 
-var lwRTE = function (textarea, options) {
-	this.css		= [];
-	this.css_class	= options.frame_class || '';
-	this.base_url	= options.base_url || '';
-	this.width		= options.width || $(textarea).width() || '100%';
-	this.height		= options.height || $(textarea).height() || 350;
-	this.iframe		= null;
-	this.iframe_doc	= null;
-	this.textarea	= null;
-	this.event		= null;
-	this.range		= null;
-	this.toolbars	= {rte: '', html : ''};
-	this.controls	= {rte: {disable: {hint: 'Source editor'}}, html: {enable: {hint: 'Visual editor'}}};
+var lwRTE = (function() {
 
-	$.extend(this.controls.rte, options.controls_rte || {});
-	$.extend(this.controls.html, options.controls_html || {});
-	$.extend(this.css, options.css || {});
+        var $txtArea
+            ,txtAreaPadding
+            ,widthArray
+            ,length
+            ,MIN_WIDTH;
 
-	if(document.designMode || document.contentEditable) {
-		$(textarea).wrap($('<div></div>').addClass('rte-zone').width(this.width));		
-		$('<div class="rte-resizer"><a href="#"></a></div>').insertAfter(textarea);
+	$txtArea = $("<textarea>").css({"position":"absolute", "top":-9000, "left":-9000});
 
-		var resizer = new lwRTE_resizer(textarea, options.maxWidth);
+	// add textarea to dom to get default padding and width
+        // only works in chrome(?), fallbacks are set...
+	$("body").append($txtArea);
 
-		
-		$(".rte-resizer a", $(textarea).parents('.rte-zone')).mousedown(function(e) {
-			$(document).mousemove(function(e) {
-				return lwRTE_resizer.mousemove(resizer, e);
+        // 4px: default bootstrap padding of a textarea
+        txtAreaPadding  = $txtArea.css("padding") || "4px",
+        widthArray      = txtAreaPadding.replace(/px/g, "").split(" "),
+        length          = widthArray.length;
+
+        switch(length) {
+            case 4:
+                // padding: top right bottom left
+                //          0   1     2      3
+                txtAreaPadding = parseInt(widthArray[1], 10) + parseInt(widthArray[3], 10);
+                break;
+            case 3:
+                // padding: top rightAndLeft bottom
+                //          0   1            2
+                txtAreaPadding = parseInt(widthArray[1], 10) * 2;
+                break;
+            default:
+                // padding: all
+                //          0
+                txtAreaPadding = parseInt(widthArray[0], 10) * 2;
+                break;
+        }
+
+        // 210: default bootstrap width of a textarea
+        MIN_WIDTH = txtAreaPadding + ($txtArea.width() || 210);
+
+        // cleanup
+        $txtArea.remove();
+        delete $txtArea;
+        delete txtAreaPadding
+        delete widthArray
+        delete length
+
+	return function (textarea, options) {
+            $txtArea.remove();
+		this.css	= [];
+		this.css_class	= options.frame_class || '';
+		this.base_url	= options.base_url || '';
+		this.width	= options.width || $(textarea).width() || 0;
+		this.width	= this.width < MIN_WIDTH ? MIN_WIDTH : this.width;
+		this.height	= options.height || $(textarea).height() || 350;
+		this.iframe	= null;
+		this.iframe_doc	= null;
+		this.textarea	= null;
+		this.event	= null;
+		this.range	= null;
+		this.toolbars	= {rte: '', html : ''};
+		this.controls	= {rte: {disable: {hint: 'Source editor'}}, html: {enable: {hint: 'Visual editor'}}};
+
+		$.extend(this.controls.rte, options.controls_rte || {});
+		$.extend(this.controls.html, options.controls_html || {});
+		$.extend(this.css, options.css || {});
+
+		if(document.designMode || document.contentEditable) {
+			$(textarea).wrap($('<div></div>').addClass('rte-zone').width(this.width));
+			$('<div class="rte-resizer"><a href="#"></a></div>').insertAfter(textarea);
+
+			var resizer = new lwRTE_resizer(textarea, MIN_WIDTH, options.maxWidth);
+
+
+			$(".rte-resizer a", $(textarea).parents('.rte-zone')).mousedown(function(e) {
+				$(document).mousemove(function(e) {
+					return lwRTE_resizer.mousemove(resizer, e);
+				});
+
+				$(document).mouseup(function(e) {
+					return lwRTE_resizer.mouseup(resizer, e)
+				});
+
+				var $iframe_body = $("#rte-iframe").contents().find("body");
+
+				$iframe_body.mousemove(function(e){
+					return lwRTE_resizer.mousemove(resizer, e)
+				});
+
+				$iframe_body.mouseup(function(e){
+					return lwRTE_resizer.mouseup(resizer, e)
+				});
+
+				return lwRTE_resizer.mousedown(resizer, e);
 			});
 
-			$(document).mouseup(function(e) {
-				return lwRTE_resizer.mouseup(resizer, e)
-			});
-
-                        var $iframe_body = $("#rte-iframe").contents().find("body");
-
-                        $iframe_body.mousemove(function(e){
-				return lwRTE_resizer.mousemove(resizer, e)
-                        });
-
-                        $iframe_body.mouseup(function(e){
-				return lwRTE_resizer.mouseup(resizer, e)
-                        });
-
-			return lwRTE_resizer.mousedown(resizer, e);
-		});
-
-		this.textarea	= textarea;
-		this.enable_design_mode();
+			this.textarea = textarea;
+			this.enable_design_mode();
+		}
 	}
-}
+})();
 
 lwRTE.prototype.editor_cmd = function(command, args) {
 	this.iframe.contentWindow.focus();
